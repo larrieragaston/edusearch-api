@@ -1,0 +1,28 @@
+{
+  "server": {
+    "port": "PORT"
+  },
+
+  "mongo": {
+    "url": "MONGO_URL",
+    "database": "MONGO_DATABASE"
+  },
+
+  "auth": {
+    "token": {
+      "secret": "AUTH_TOKEN_SECRET"
+    }
+  },
+
+  "logger": {
+    "Console": {
+      "level": "LOGGER_CONSOLE_LEVEL"
+    },
+    "Papertrail": {
+      "host": "LOGGER_PAPERTRAIL_HOST",
+      "port": "LOGGER_PAPERTRAIL_PORT",
+      "program": "LOGGER_PAPERTRAIL_PROGRAM",
+      "level": "LOGGER_PAPERTRAIL_LEVEL"
+    }
+  }
+}

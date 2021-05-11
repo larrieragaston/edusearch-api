@@ -1,0 +1,24 @@
+#! /usr/bin/env node
+
+'use strict'
+
+const figlet = require('figlet')
+const pkg = require('../package')
+
+process.stdout.write('\n')
+process.stdout.write(`${figlet.textSync('EduSearch-API', { font: 'Ogre' })}\n`)
+process.stdout.write('\n')
+process.stdout.write(`version: ${pkg.version} revision: ${pkg.revision || 'Not yet'}\n`)
+process.stdout.write('\n')
+process.stdout.write('\n')
+
+const eduSearch = require('..')
+
+eduSearch
+  .start()
+  .then(function(result) {
+    eduSearch.logger.info(`Listening for HTTP requests at port ${result.port}`)
+  })
+  .catch(function(err) {
+    eduSearch.logger.error('Failed to start EduSearch-API', err)
+  })

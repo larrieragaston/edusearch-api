@@ -1,0 +1,30 @@
+{
+    "server": {
+      "port": "3000",
+      "maxResultsLimit": 100
+    },
+  
+    "mongo": {
+      "url": "mongodb://localhost:27017/eduSearch",
+      "database": "eduSearch"
+    },
+  
+    "auth": {
+      "passwordTTL": "100 days",
+      "token": {
+        "secret": "secret",
+        "ttl": "100 days"
+      }
+    },
+  
+    "logger": {
+      "console": {
+        "level": "debug",
+        "timestamp": true,
+        "handleExceptions": true,
+        "humanReadableUnhandledException": true,
+        "colorize": true
+      }
+    }
+  }
+  
