@@ -8,7 +8,8 @@
     "dev": "nodemon node ./bin/eduSearch",
     "inspect": "nodemon --inspect ./bin/eduSearch",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "lint:fix": "eslint --fix .",
+    "nomad": "nomad"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "mongoose": "^5.12.8",
     "mongoose-cu-timestamps": "^1.0.0",
     "mongoose-paginate-v2": "^1.3.17",
+    "mongoose-validator": "^2.1.0",
     "on-finished": "^2.3.0",
     "pretty-ms": "^7.0.1",
     "require-all": "^3.0.0",
@@ -48,6 +50,7 @@
   "devDependencies": {
     "eslint": "^7.26.0",
     "nodemon": "^2.0.7",
+    "nomad-cli": "^1.1.2",
     "prettier": "^2.3.0"
   }
 }

@@ -6,7 +6,8 @@ const components = require('../components')
 function createDatabase({ config, logger }) {
   const db = {
     logger: logger.child({ context: 'Database' }),
-    config: config.get('mongo')
+    config: config.get('mongo'),
+    options: { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }
   }
 
   db.logger.verbose('Creating mongoose instance')
@@ -15,7 +16,7 @@ function createDatabase({ config, logger }) {
 
   db.connect = function connect() {
     db.logger.verbose('Connecting to database')
-    return db.mongoose.connect(db.config.url).then(function() {
+    return db.mongoose.connect(db.config.url, db.options).then(function() {
       db.logger.verbose('Connected to database')
     })
   }
@@ -53,11 +54,13 @@ function setupMongoosePlugins(db) {
 }
 
 function setupMongooseModels(db) {
-  db.logger.verbose('Registering models')
-  // db.mongoose.model('Account', components.account.schema)
-  // db.mongoose.model('Role', components.role.schema)
-  // db.mongoose.model('User', components.user.schema)
-  // db.mongoose.model('Conversation', components.conversation.schema)
+  db.logger.verbose('Registering models...')
+  db.mongoose.model('University', components.university.schema)
+  db.mongoose.model('Career', components.career.schema)
+  db.mongoose.model('Subject', components.subject.schema)
+  db.mongoose.model('TeacherContest', components.teacherContest.schema)
+  db.mongoose.model('User', components.user.schema)
+  db.mongoose.model('Postulation', components.postulation.schema)
   db.logger.verbose('Models registered')
 }
 
