@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const validate = require('mongoose-validator')
+const bcrypt = require('bcrypt')
 const PersonalInformation = require('./personalInformation');
 const ProfessionalInformation = require('./professionalInformation');
 

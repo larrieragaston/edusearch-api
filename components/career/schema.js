@@ -5,7 +5,7 @@ const { ObjectId } = Schema.Types
 const careerSchema = new Schema({
   university: { type: ObjectId, ref: 'University' },
   name: { type: String, required: true },
-  logo: { type: String, required: true },
+  logo: { type: String, required: false },
   url: { type: String, required: false }
 });
 

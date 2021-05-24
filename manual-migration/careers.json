@@ -1,0 +1,62 @@
+[
+    {
+        "_id": {
+            "$oid": "000000000000000000000000"
+        },
+        "university": {
+            "$ref": "universities",
+            "$id": {
+                "$oid": "000000000000000000000000"
+            },
+            "$db": "eduSearch"
+        },
+        "name": "Tecnicatura Superior en Informática Aplicada",
+        "logo": null,
+        "url": null
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000001"
+        },
+        "university": {
+            "$ref": "universities",
+            "$id": {
+                "$oid": "000000000000000000000000"
+            },
+            "$db": "eduSearch"
+        },
+        "name": "Tecnicatura Superior en Electrónica",
+        "logo": null,
+        "url": null
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000002"
+        },
+        "university": {
+            "$ref": "universities",
+            "$id": {
+                "$oid": "000000000000000000000001"
+            },
+            "$db": "eduSearch"
+        },
+        "name": "Ingeniería en Informática",
+        "logo": null,
+        "url": null
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000003"
+        },
+        "university": {
+            "$ref": "universities",
+            "$id": {
+                "$oid": "000000000000000000000001"
+            },
+            "$db": "eduSearch"
+        },
+        "name": "Ingeniería Electrónica",
+        "logo": null,
+        "url": null
+    }
+]

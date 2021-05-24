@@ -1,0 +1,170 @@
+[
+    {
+        "_id": {
+            "$oid": "000000000000000000000000"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000000"
+            },
+            "$db": "eduSearch"
+        },
+        "name": "Programación I",
+        "curriculum": null
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000001"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000000"
+            },
+            "$db": "eduSearch"
+        },
+        "name": "Programación II",
+        "curriculum": null
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000002"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000000"
+            },
+            "$db": "eduSearch"
+        },
+        "name": "Programación III",
+        "curriculum": null
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000003"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000001"
+            },
+            "$db": "eduSearch"
+        },
+        "name": "Electrónica I",
+        "curriculum": null
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000004"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000001"
+            },
+            "$db": "eduSearch"
+        },
+        "name": "Electrónica II",
+        "curriculum": null
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000005"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000001"
+            },
+            "$db": "eduSearch"
+        },
+        "name": "Electrónica III",
+        "curriculum": null
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000006"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000002"
+            },
+            "$db": "eduSearch"
+        },
+        "name": "Programación I",
+        "curriculum": null
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000007"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000002"
+            },
+            "$db": "eduSearch"
+        },
+        "name": "Programación II",
+        "curriculum": null
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000008"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000002"
+            },
+            "$db": "eduSearch"
+        },
+        "name": "Programación III",
+        "curriculum": null
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000009"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000003"
+            },
+            "$db": "eduSearch"
+        },
+        "name": "Electrónica I",
+        "curriculum": null
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000010"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000003"
+            },
+            "$db": "eduSearch"
+        },
+        "name": "Electrónica II",
+        "curriculum": null
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000011"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000003"
+            },
+            "$db": "eduSearch"
+        },
+        "name": "Electrónica III",
+        "curriculum": null
+    }
+]

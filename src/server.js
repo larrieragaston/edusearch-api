@@ -7,7 +7,7 @@ const cors = require('cors')
 const compression = require('compression')
 const { promisify } = require('util')
 
-// const authorization = require('./authorization')
+const authorization = require('./authorization')
 const components = require('../components')
 
 const statusCodeByErrorName = {
@@ -113,7 +113,7 @@ function setupExpressMiddleware(server) {
   logger.verbose('Attaching middleware to express app')
   server.app.use(createRequestIdMiddleware())
   server.app.use(createRequestLoggerMidleware())
-  // server.app.use(authorization)
+  server.app.use(authorization)
   server.app.use(helmet())
   server.app.use(express.raw())
   server.app.use(express.json({ limit: '5mb' }))
@@ -128,6 +128,7 @@ function setupExpressRoutes(server) {
   server.logger.verbose('Attaching resource routers to express app...')
   server.app.use('/', components.root.route)
   server.app.use('/', components.status.route)
+  server.app.use('/', components.user.route)
   // server.app.use('/', components.account.route)
   // server.app.use('/', components.conversation.route)
 
