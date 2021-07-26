@@ -16,7 +16,7 @@ const userSchema = new Schema({
     role: { type: String, required: true, enum: ['Teacher', 'UAdmin', 'UCouncilMember', 'UHumanResources'] },
     university: { type: ObjectId, ref: 'University' },
     mediaUrl: { type: String, required: false },
-    porsonalInformation: PersonalInformation,
+    personalInformation: PersonalInformation,
     professionalInformation: ProfessionalInformation
 })
 

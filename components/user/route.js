@@ -10,6 +10,7 @@ router.post('/users/university/:universityId', authenticate, createUniversityUse
 router.get('/users/university/:universityId', authenticate, findUsersByUniversity)
 router.get('/users/:id([0-9a-f]{24})', authenticate, findUserById)
 router.get('/users/me', authenticate, findUserByToken)
+router.get('/users/personalInformation', authenticate, findUserPersonalInformation)
 router.put('/users/:id', authenticate, updateUserById)
 router.post('/users/verify/:token', verifyUserWithToken)
 router.put('/users/:id([0-9a-f]{24})/password-reset', authenticate, updateUserPassword)
@@ -179,7 +180,29 @@ async function findUserByToken(req, res, next) {
     }
 
     req.logger.verbose('Sending user session to client')
-    res.json({ user: user.toJSON() })
+    res.json(user)
+  } catch (err) {
+    next(err)
+  }
+}
+
+async function findUserPersonalInformation(req, res, next) {
+  req.logger.info(`Finding user with id ${req.user._id} using auth token`)
+
+  try {
+    const user = await req
+      .model('User')
+      .findOne({ _id: req.user._id })
+      .lean()
+      .exec()
+
+    if (!user) {
+      req.logger.verbose('User not found. Sending 404 to client')
+      return res.status(404).end()
+    }
+
+    req.logger.verbose('Sending user session to client')
+    res.json(user)
   } catch (err) {
     next(err)
   }

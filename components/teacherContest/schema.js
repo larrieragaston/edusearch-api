@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose
 const { ObjectId } = Schema.Types
 
-const teacherContestsSchema = new Schema({
+const teacherContestSchema = new Schema({
   university: { type: ObjectId, ref: 'University' },
   career: { type: ObjectId, ref: 'Career' },
   subject: { type: ObjectId, ref: 'Subject' },
@@ -12,6 +12,9 @@ const teacherContestsSchema = new Schema({
   createdDate: { type: Date, required: true },
   dueDate: { type: Date, required: true },
   active: { type: Boolean, required: true },
+  requirements:  { type : Array , "default" : [] },
+  hasColloquium: { type: Boolean, required: true, "default": false},
+  activeStage: { type: Number, required: true, "default": 0}
 });
 
-module.exports = teacherContestsSchema
+module.exports = teacherContestSchema

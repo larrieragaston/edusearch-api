@@ -1,0 +1,327 @@
+[
+    {
+        "_id": {
+            "$oid": "000000000000000000000000"
+        },
+        "university": {
+            "$ref": "universities",
+            "$id": {
+                "$oid": "000000000000000000000000"
+            },
+            "$db": "eduSearch"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000000"
+            },
+            "$db": "eduSearch"
+        },
+        "subject": {
+            "$ref": "subjects",
+            "$id": {
+                "$oid": "000000000000000000000000"
+            },
+            "$db": "eduSearch"
+        },
+        "day": "Lunes",
+        "startsAt": "08:00",
+        "endsAt": "12:00",
+        "createdDate": "2021-01-01",
+        "dueDate": "2022-01-01",
+        "active": true,
+        "requirements": [
+            { "name": "Acá enlistas los requisitos del docente", "optional": false },
+            { "name": "Como cinco o seis cosas.", "optional": false },
+            { "name": "Asi se veria algo que no cumple", "optional": true },
+            { "name": "Y que evidentemente queden cinco ítems.", "optional": false },
+            { "name": "Con un interlineado más grande", "optional": true },
+            { "name": "Que los textos normales.", "optional": false }],
+        "hasColloquium": true,
+        "activeStage": 4
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000001"
+        },
+        "university": {
+            "$ref": "universities",
+            "$id": {
+                "$oid": "000000000000000000000000"
+            },
+            "$db": "eduSearch"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000000"
+            },
+            "$db": "eduSearch"
+        },
+        "subject": {
+            "$ref": "subjects",
+            "$id": {
+                "$oid": "000000000000000000000001"
+            },
+            "$db": "eduSearch"
+        },
+        "day": "Lunes",
+        "startsAt": "08:00",
+        "endsAt": "12:00",
+        "createdDate": "2021-01-01",
+        "dueDate": "2022-01-01",
+        "active": true,
+        "requirements": [
+            { "name": "Acá enlistas los requisitos del docente", "optional": true },
+            { "name": "Como cinco o seis cosas.", "optional": true },
+            { "name": "Asi se veria algo que no cumple", "optional": true },
+            { "name": "Y que evidentemente queden cinco ítems.", "optional": true },
+            { "name": "Con un interlineado más grande", "optional": true },
+            { "name": "Que los textos normales.", "optional": true }],
+        "hasColloquium": false,
+        "activeStage": 1
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000002"
+        },
+        "university": {
+            "$ref": "universities",
+            "$id": {
+                "$oid": "000000000000000000000000"
+            },
+            "$db": "eduSearch"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000001"
+            },
+            "$db": "eduSearch"
+        },
+        "subject": {
+            "$ref": "subjects",
+            "$id": {
+                "$oid": "000000000000000000000003"
+            },
+            "$db": "eduSearch"
+        },
+        "day": "Lunes",
+        "startsAt": "08:00",
+        "endsAt": "12:00",
+        "createdDate": "2021-01-01",
+        "dueDate": "2022-01-01",
+        "active": true,
+        "requirements": [
+            { "name": "Acá enlistas los requisitos del docente", "optional": false },
+            { "name": "Como cinco o seis cosas.", "optional": false },
+            { "name": "Asi se veria algo que no cumple", "optional": false },
+            { "name": "Y que evidentemente queden cinco ítems.", "optional": false },
+            { "name": "Con un interlineado más grande", "optional": false },
+            { "name": "Que los textos normales.", "optional": false }],
+        "hasColloquium": true,
+        "activeStage": 2
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000003"
+        },
+        "university": {
+            "$ref": "universities",
+            "$id": {
+                "$oid": "000000000000000000000000"
+            },
+            "$db": "eduSearch"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000001"
+            },
+            "$db": "eduSearch"
+        },
+        "subject": {
+            "$ref": "subjects",
+            "$id": {
+                "$oid": "000000000000000000000004"
+            },
+            "$db": "eduSearch"
+        },
+        "day": "Lunes",
+        "startsAt": "08:00",
+        "endsAt": "12:00",
+        "createdDate": "2021-01-01",
+        "dueDate": "2022-01-01",
+        "active": true,
+        "requirements": [
+            { "name": "Acá enlistas los requisitos del docente", "optional": false },
+            { "name": "Con un interlineado más grande", "optional": true },
+            { "name": "Que los textos normales.", "optional": false }],
+        "hasColloquium": false,
+        "activeStage": 5
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000004"
+        },
+        "university": {
+            "$ref": "universities",
+            "$id": {
+                "$oid": "000000000000000000000001"
+            },
+            "$db": "eduSearch"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000002"
+            },
+            "$db": "eduSearch"
+        },
+        "subject": {
+            "$ref": "subjects",
+            "$id": {
+                "$oid": "000000000000000000000006"
+            },
+            "$db": "eduSearch"
+        },
+        "day": "Lunes",
+        "startsAt": "08:00",
+        "endsAt": "12:00",
+        "createdDate": "2021-01-01",
+        "dueDate": "2022-01-01",
+        "active": true,
+        "requirements": [
+            { "name": "Que los textos normales.", "optional": false },
+            { "name": "Asi se veria algo que no cumple", "optional": false },
+            { "name": "Como cinco o seis cosas.", "optional": false },
+            { "name": "Con un interlineado más grande", "optional": false },
+            { "name": "Y que evidentemente queden cinco ítems.", "optional": false },
+            { "name": "Acá enlistas los requisitos del docente", "optional": false }],
+        "hasColloquium": false,
+        "activeStage": 3
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000005"
+        },
+        "university": {
+            "$ref": "universities",
+            "$id": {
+                "$oid": "000000000000000000000001"
+            },
+            "$db": "eduSearch"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000002"
+            },
+            "$db": "eduSearch"
+        },
+        "subject": {
+            "$ref": "subjects",
+            "$id": {
+                "$oid": "000000000000000000000007"
+            },
+            "$db": "eduSearch"
+        },
+        "day": "Lunes",
+        "startsAt": "08:00",
+        "endsAt": "12:00",
+        "createdDate": "2021-01-01",
+        "dueDate": "2022-01-01",
+        "active": true,
+        "requirements": [
+            { "name": "Acá enlistas los requisitos del docente", "optional": false },
+            { "name": "Como cinco o seis cosas.", "optional": false },
+            { "name": "Asi se veria algo que no cumple", "optional": false },
+            { "name": "Y que evidentemente queden cinco ítems.", "optional": false },
+            { "name": "Con un interlineado más grande", "optional": false },
+            { "name": "Que los textos normales.", "optional": false }],
+        "hasColloquium": true,
+        "activeStage": 2
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000006"
+        },
+        "university": {
+            "$ref": "universities",
+            "$id": {
+                "$oid": "000000000000000000000001"
+            },
+            "$db": "eduSearch"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000003"
+            },
+            "$db": "eduSearch"
+        },
+        "subject": {
+            "$ref": "subjects",
+            "$id": {
+                "$oid": "000000000000000000000009"
+            },
+            "$db": "eduSearch"
+        },
+        "day": "Lunes",
+        "startsAt": "08:00",
+        "endsAt": "12:00",
+        "createdDate": "2021-01-01",
+        "dueDate": "2022-01-01",
+        "active": true,
+        "requirements": [
+            { "name": "Acá enlistas los requisitos del docente", "optional": false },
+            { "name": "Como cinco o seis cosas.", "optional": false },
+            { "name": "Asi se veria algo que no cumple", "optional": false },
+            { "name": "Y que evidentemente queden cinco ítems.", "optional": false },
+            { "name": "Con un interlineado más grande", "optional": false },
+            { "name": "Que los textos normales.", "optional": false }],
+        "hasColloquium": true,
+        "activeStage": 2
+    },
+    {
+        "_id": {
+            "$oid": "000000000000000000000007"
+        },
+        "university": {
+            "$ref": "universities",
+            "$id": {
+                "$oid": "000000000000000000000001"
+            },
+            "$db": "eduSearch"
+        },
+        "career": {
+            "$ref": "careers",
+            "$id": {
+                "$oid": "000000000000000000000003"
+            },
+            "$db": "eduSearch"
+        },
+        "subject": {
+            "$ref": "subjects",
+            "$id": {
+                "$oid": "000000000000000000000010"
+            },
+            "$db": "eduSearch"
+        },
+        "day": "Lunes",
+        "startsAt": "08:00",
+        "endsAt": "12:00",
+        "createdDate": "2021-01-01",
+        "dueDate": "2022-01-01",
+        "active": true,
+        "requirements": [
+            { "name": "Acá enlistas los requisitos del docente", "optional": false },
+            { "name": "Como cinco o seis cosas.", "optional": false },
+            { "name": "Asi se veria algo que no cumple", "optional": false },
+            { "name": "Y que evidentemente queden cinco ítems.", "optional": false },
+            { "name": "Con un interlineado más grande", "optional": false },
+            { "name": "Que los textos normales.", "optional": false }],
+        "hasColloquium": true,
+        "activeStage": 2
+    }
+]

@@ -1,10 +1,11 @@
 const Address = require('../address');
 
 const personalInformationSchema = {
-  identificationDocument: { type: String, required: true, unique: true },
+  idNumber: { type: String, required: true, unique: true },
   birthDate: { type: String, required: true, min: 6 },
-  phoneNumber: { type: String, required: true, min: 6 },
-  phoneNumber2: { type: String, required: true, min: 6 },
+  birthPlace:  { type: String, required: true, min: 6 },
+  phone: { type: String, required: true, min: 6 },
+  mobilePhone: { type: String, required: true, min: 6 },
   address: Address,
 };
 
