@@ -16,9 +16,7 @@
             "$db": "eduSearch"
         },
         "mediaUrl": null,
-        "personalInformation": {
-            "idNumber": 10000000
-        },
+        "idNumber": 10000000,
         "professionalInformation": null
     },
     {
@@ -38,9 +36,7 @@
             "$db": "eduSearch"
         },
         "mediaUrl": null,
-        "personalInformation": {
-            "idNumber": 10000001
-        },
+        "idNumber": 10000001,
         "professionalInformation": null
     },
     {
@@ -60,9 +56,7 @@
             "$db": "eduSearch"
         },
         "mediaUrl": null,
-        "personalInformation": {
-            "idNumber": 10000002
-        },
+        "idNumber": 10000002,
         "professionalInformation": null
     },
     {
@@ -82,9 +76,7 @@
             "$db": "eduSearch"
         },
         "mediaUrl": null,
-        "personalInformation": {
-            "idNumber": 10000003
-        },
+        "idNumber": 10000003,
         "professionalInformation": null
     },
     {
@@ -104,9 +96,7 @@
             "$db": "eduSearch"
         },
         "mediaUrl": null,
-        "personalInformation": {
-            "idNumber": 10000004
-        },
+        "idNumber": 10000004,
         "professionalInformation": null
     },
     {
@@ -126,9 +116,7 @@
             "$db": "eduSearch"
         },
         "mediaUrl": null,
-        "personalInformation": {
-            "idNumber": 10000005
-        },
+        "idNumber": 10000005,
         "professionalInformation": null
     },
     {
@@ -142,21 +130,19 @@
         "role": "Teacher",
         "university": null,
         "mediaUrl": null,
-        "personalInformation": {
-            "idNumber": 10000006,
-            "birthDate": "1900-01-01",
-            "phoneNumber": 1500000006,
-            "phoneNumber2": null,
-            "address": {
-                "country": "Argentina",
-                "province": "CABA",
-                "locality": "CABA",
-                "street": "9 de julio",
-                "number": 1,
-                "floor": null,
-                "department": null,
-                "postalCode": 1006
-            }
+        "idNumber": 10000006,
+        "birthDate": "1900-01-01",
+        "phoneNumber": 1500000006,
+        "phoneNumber2": null,
+        "address": {
+            "country": "Argentina",
+            "province": "CABA",
+            "locality": "CABA",
+            "street": "9 de julio",
+            "number": 1,
+            "floor": null,
+            "department": null,
+            "postalCode": 1006
         },
         "professionalInformation": {
             "degrees": {
@@ -180,21 +166,19 @@
         "role": "Teacher",
         "university": null,
         "mediaUrl": null,
-        "personalInformation": {
-            "idNumber": 10000007,
-            "birthDate": "1900-01-01",
-            "phoneNumber": 1500000007,
-            "phoneNumber2": null,
-            "address": {
-                "country": "Argentina",
-                "province": "CABA",
-                "locality": "CABA",
-                "street": "9 de julio",
-                "number": 1,
-                "floor": null,
-                "department": null,
-                "postalCode": 1007
-            }
+        "idNumber": 10000007,
+        "birthDate": "1900-01-01",
+        "phoneNumber": 1500000007,
+        "phoneNumber2": null,
+        "address": {
+            "country": "Argentina",
+            "province": "CABA",
+            "locality": "CABA",
+            "street": "9 de julio",
+            "number": 1,
+            "floor": null,
+            "department": null,
+            "postalCode": 1007
         },
         "professionalInformation": {
             "degrees": {
@@ -218,21 +202,19 @@
         "role": "Teacher",
         "university": null,
         "mediaUrl": null,
-        "personalInformation": {
-            "idNumber": 10000008,
-            "birthDate": "1900-01-01",
-            "phoneNumber": 1500000008,
-            "phoneNumber2": null,
-            "address": {
-                "country": "Argentina",
-                "province": "CABA",
-                "locality": "CABA",
-                "street": "9 de julio",
-                "number": 1,
-                "floor": null,
-                "department": null,
-                "postalCode": 1008
-            }
+        "idNumber": 10000008,
+        "birthDate": "1900-01-01",
+        "phoneNumber": 1500000008,
+        "phoneNumber2": null,
+        "address": {
+            "country": "Argentina",
+            "province": "CABA",
+            "locality": "CABA",
+            "street": "9 de julio",
+            "number": 1,
+            "floor": null,
+            "department": null,
+            "postalCode": 1008
         },
         "professionalInformation": {
             "degrees": {
@@ -256,21 +238,19 @@
         "role": "Teacher",
         "university": null,
         "mediaUrl": null,
-        "personalInformation": {
-            "idNumber": 10000009,
-            "birthDate": "1900-01-01",
-            "phoneNumber": 1500000009,
-            "phoneNumber2": null,
-            "address": {
-                "country": "Argentina",
-                "province": "CABA",
-                "locality": "CABA",
-                "street": "9 de julio",
-                "number": 1,
-                "floor": null,
-                "department": null,
-                "postalCode": 1009
-            }
+        "idNumber": 10000009,
+        "birthDate": "1900-01-01",
+        "phoneNumber": 1500000009,
+        "phoneNumber2": null,
+        "address": {
+            "country": "Argentina",
+            "province": "CABA",
+            "locality": "CABA",
+            "street": "9 de julio",
+            "number": 1,
+            "floor": null,
+            "department": null,
+            "postalCode": 1009
         },
         "professionalInformation": {
             "degrees": {
@@ -294,21 +274,19 @@
         "role": "Teacher",
         "university": null,
         "mediaUrl": null,
-        "personalInformation": {
-            "idNumber": 10000010,
-            "birthDate": "1900-01-01",
-            "phoneNumber": 1500000010,
-            "phoneNumber2": null,
-            "address": {
-                "country": "Argentina",
-                "province": "CABA",
-                "locality": "CABA",
-                "street": "9 de julio",
-                "number": 1,
-                "floor": null,
-                "department": null,
-                "postalCode": 1010
-            }
+        "idNumber": 10000010,
+        "birthDate": "1900-01-01",
+        "phoneNumber": 1500000010,
+        "phoneNumber2": null,
+        "address": {
+            "country": "Argentina",
+            "province": "CABA",
+            "locality": "CABA",
+            "street": "9 de julio",
+            "number": 1,
+            "floor": null,
+            "department": null,
+            "postalCode": 1010
         },
         "professionalInformation": {
             "degrees": {

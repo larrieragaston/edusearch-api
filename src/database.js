@@ -58,7 +58,7 @@ function setupMongooseModels(db) {
   db.mongoose.model('University', components.university.schema)
   db.mongoose.model('Career', components.career.schema)
   db.mongoose.model('Subject', components.subject.schema)
-  db.mongoose.model('TeacherContest', components.teacherContest.schema)
+  db.mongoose.model('Contest', components.contest.schema)
   db.mongoose.model('User', components.user.schema)
   db.mongoose.model('Postulation', components.postulation.schema)
   db.logger.verbose('Models registered')

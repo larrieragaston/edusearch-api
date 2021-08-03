@@ -129,12 +129,8 @@ function setupExpressRoutes(server) {
   server.app.use('/', components.root.route)
   server.app.use('/', components.status.route)
   server.app.use('/', components.user.route)
-  server.app.use('/', components.teacherContest.route)
-  // server.app.use('/', components.account.route)
-  // server.app.use('/', components.conversation.route)
-
-  // We do not allow dynamic role creation
-  // server.app.use('/', components.role.route)
+  server.app.use('/', components.contest.route)
+  server.app.use('/', components.postulation.route)
   server.logger.verbose('Resource routers attached')
 }
 

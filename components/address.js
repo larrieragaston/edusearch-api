@@ -6,7 +6,7 @@ const address = {
     number: { type: Number, required: true},
     floor: { type: String, required: false},
     department: { type: String, required: false},
-    postalCode: { type: String, required: true},
+    postalCode: { type: Number, required: true},
 };
 
 module.exports = address

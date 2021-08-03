@@ -10,12 +10,12 @@ module.exports = function(nomad) {
 
   nomad.driver({
     connect(cb) {
-      MongoClient.connect(config.mongo.url, (err, client) => {
+      MongoClient.connect(config.mongo.url, { useUnifiedTopology: true }, (err, client) => {
         if (err) {
           return cb(err)
         }
         this.client = client
-        this.db = client.db(config.mongo.db)
+        this.db = client.db(config.mongo.db,{ useUnifiedTopology: true })
         return cb(null, this.db)
       })
     },

@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose
 const { ObjectId } = Schema.Types
 
-const teacherContestSchema = new Schema({
+const contestSchema = new Schema({
   university: { type: ObjectId, ref: 'University' },
   career: { type: ObjectId, ref: 'Career' },
   subject: { type: ObjectId, ref: 'Subject' },
@@ -17,4 +17,4 @@ const teacherContestSchema = new Schema({
   activeStage: { type: Number, required: true, "default": 0}
 });
 
-module.exports = teacherContestSchema
+module.exports = contestSchema

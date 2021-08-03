@@ -5,17 +5,19 @@ const authenticate = require('../../src/authentication')
 const router = new Router()
 
 router.post('/users/login', createUserToken)
-router.post('/users', authenticate, createUser)
-router.post('/users/university/:universityId', authenticate, createUniversityUser)
-router.get('/users/university/:universityId', authenticate, findUsersByUniversity)
-router.get('/users/:id([0-9a-f]{24})', authenticate, findUserById)
+// router.post('/users', authenticate, createUser)
+// router.post('/users/university/:universityId', authenticate, createUniversityUser)
+// router.get('/users/university/:universityId', authenticate, findUsersByUniversity)
+// router.get('/users/:id([0-9a-f]{24})', authenticate, findUserById)
 router.get('/users/me', authenticate, findUserByToken)
-router.get('/users/personalInformation', authenticate, findUserPersonalInformation)
-router.put('/users/:id', authenticate, updateUserById)
-router.post('/users/verify/:token', verifyUserWithToken)
-router.put('/users/:id([0-9a-f]{24})/password-reset', authenticate, updateUserPassword)
-router.put('/users/password/:token', resetUserPassword)
-router.put('/users/:email/password-reset', sendUserPasswordResetByEmail)
+router.put('/users/me', authenticate, updateUserByToken)
+// router.get('/users/personalInformation', authenticate, findUserPersonalInformation)
+// router.put('/users/:id', authenticate, updateUserById)
+// router.post('/users/verify/:token', verifyUserWithToken)
+// router.put('/users/:id([0-9a-f]{24})/password-reset', authenticate, updateUserPassword)
+// router.put('/users/password/:token', resetUserPassword)
+// router.put('/users/:email/password-reset', sendUserPasswordResetByEmail)
+// router.get('/users/updateUser', authenticate, updateUser)
 
 async function createUserToken(req, res, next) {
   req.logger.info(`Creating user token`)
@@ -403,6 +405,29 @@ async function updateUserPassword(req, res, next) {
     res.status(204).end()
   } catch (err) {
     next(err)
+  }
+}
+
+async function updateUserByToken(req, res, next) {
+  req.logger.info(`Updating user with id: ${req.user._id}`)
+  try {
+    // if (req.body.password) {
+    //   req.body.password = await req.model('User').hashPassword(req.body.password)
+    // }
+    const results = await req.model('User').update({ _id: req.user._id }, req.body)
+
+    if (results.n < 1) {
+      req.logger.verbose('User not found')
+      return res.status(404).end()
+    }
+
+    const user = await req.model('User').findOne({ _id: req.user._id })
+
+    req.logger.verbose('User updated')
+
+    return res.json({ user })
+  } catch (err) {
+    return next(err)
   }
 }
 

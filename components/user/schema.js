@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const validate = require('mongoose-validator')
 const bcrypt = require('bcrypt')
-const PersonalInformation = require('./personalInformation');
+const Address = require('../address');
 const ProfessionalInformation = require('./professionalInformation');
 
 const { Schema } = mongoose
@@ -16,7 +16,13 @@ const userSchema = new Schema({
     role: { type: String, required: true, enum: ['Teacher', 'UAdmin', 'UCouncilMember', 'UHumanResources'] },
     university: { type: ObjectId, ref: 'University' },
     mediaUrl: { type: String, required: false },
-    personalInformation: PersonalInformation,
+    idNumber: { type: String, required: true, unique: true },
+    birthDate: { type: String, required: true, min: 6 },
+    birthPlace:  { type: String, required: true, min: 6 },
+    phone: { type: String, required: true, min: 6 },
+    mobilePhone: { type: String, required: true, min: 6 },
+    hasNotificationsEnabled: {type: Boolean, required: true, default: true},
+    address: Address,
     professionalInformation: ProfessionalInformation
 })
 
