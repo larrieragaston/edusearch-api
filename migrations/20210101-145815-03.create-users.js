@@ -136,16 +136,14 @@ exports.up = (db, done) => {
         department: null,
         postalCode: 1414
       },
-      professionalInformation: {
-        degrees: {
-          secondary: {
-            title: 'Bachiller',
-            institution: 'Escuela 1',
-            startYear: 2000,
-            endYear: 2006
-          }
-        }
-      }
+      professionalInformation: [{
+        type: 'Degree',
+        subType: 'Secondary',
+        title: 'Bachiller',
+        institution: 'Escuela 1',
+        startYear: 2000,
+        endYear: 2006
+      }]
     },
     {
       _id: new ObjectId('000000000000000000000005'),
@@ -171,16 +169,14 @@ exports.up = (db, done) => {
         department: null,
         postalCode: 1414
       },
-      professionalInformation: {
-        degrees: {
-          secondary: {
-            title: 'Bachiller',
-            institution: 'Escuela 1',
-            startYear: 2000,
-            endYear: 2006
-          }
-        }
-      }
+      professionalInformation: [{
+        type: 'Degree',
+        subType: 'Secondary',
+        title: 'Bachiller',
+        institution: 'Escuela 1',
+        startYear: 2000,
+        endYear: 2006
+      }]
     },
     {
       _id: new ObjectId('000000000000000000000006'),
@@ -206,16 +202,14 @@ exports.up = (db, done) => {
         department: null,
         postalCode: 1006
       },
-      professionalInformation: {
-        degrees: {
-          secondary: {
-            title: 'Bachiller',
-            institution: 'Escuela 1',
-            startYear: 2000,
-            endYear: 2006
-          }
-        }
-      }
+      professionalInformation: [{
+        type: 'Degree',
+        subType: 'Secondary',
+        title: 'Bachiller',
+        institution: 'Escuela 1',
+        startYear: 2000,
+        endYear: 2006
+      }]
     },
     {
       _id: new ObjectId('000000000000000000000007'),
@@ -241,16 +235,14 @@ exports.up = (db, done) => {
         department: null,
         postalCode: 1007
       },
-      professionalInformation: {
-        degrees: {
-          secondary: {
-            title: 'Bachiller',
-            institution: 'Escuela 1',
-            startYear: 2000,
-            endYear: 2007
-          }
-        }
-      }
+      professionalInformation: [{
+        type: 'Degree',
+        subType: 'Secondary',
+        title: 'Bachiller',
+        institution: 'Escuela 1',
+        startYear: 2000,
+        endYear: 2006
+      }]
     },
     {
       _id: new ObjectId('000000000000000000000008'),
@@ -276,16 +268,14 @@ exports.up = (db, done) => {
         department: null,
         postalCode: 1008
       },
-      professionalInformation: {
-        degrees: {
-          secondary: {
-            title: 'Bachiller',
-            institution: 'Escuela 1',
-            startYear: 2000,
-            endYear: 2008
-          }
-        }
-      }
+      professionalInformation: [{
+        type: 'Degree',
+        subType: 'Secondary',
+        title: 'Bachiller',
+        institution: 'Escuela 1',
+        startYear: 2000,
+        endYear: 2006
+      }]
     },
     {
       _id: new ObjectId('000000000000000000000009'),
@@ -311,16 +301,14 @@ exports.up = (db, done) => {
         department: null,
         postalCode: 1009
       },
-      professionalInformation: {
-        degrees: {
-          secondary: {
-            title: 'Bachiller',
-            institution: 'Escuela 9',
-            startYear: 2000,
-            endYear: 2009
-          }
-        }
-      }
+      professionalInformation: [{
+        type: 'Degree',
+        subType: 'Secondary',
+        title: 'Bachiller',
+        institution: 'Escuela 1',
+        startYear: 2000,
+        endYear: 2006
+      }]
     },
     {
       _id: new ObjectId('000000000000000000000010'),
@@ -346,16 +334,14 @@ exports.up = (db, done) => {
         department: null,
         postalCode: 1010
       },
-      professionalInformation: {
-        degrees: {
-          secondary: {
-            title: 'Bachiller',
-            institution: 'Escuela 10',
-            startYear: 2000,
-            endYear: 2010
-          }
-        }
-      }
+      professionalInformation: [{
+        type: 'Degree',
+        subType: 'Secondary',
+        title: 'Bachiller',
+        institution: 'Escuela 1',
+        startYear: 2000,
+        endYear: 2006
+      }]
     },
 
   ],

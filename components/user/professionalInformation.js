@@ -1,45 +1,38 @@
-const professionalInformationSchema = {
-  degrees: {
-    secondary: {
-      title: { type: String, required: true },
-      institution: { type: String, required: true },
-      startYear: { type: String, required: true },
-      endYear: { type: String, required: true },
-    },
-    otherLevels: [
-      {
-        type: { type: String, required: true, enum: ['NoUniversitaria', 'NoUniversitaria-Postítulo', 'DeGrado', 'Postgrado-Especializacion', 'Postgrado-Maestria', 'Postgrado-Doctorado', 'Postgrado-PostDoctorado'] },
-        title: { type: String, required: true },
-        institution: { type: String, required: true },
-        startYear: { type: String, required: true },
-        currentSituation: { type: String, required: true, enum: ['Ended', 'Current', 'Quit'] },
-        endYear: { type: String, required: true },
-      }
-    ]
+const professionalInformationSchema = [{
+  type: {
+    type: String, required: true, enum: ['Degree',
+      'FurtherTraining',
+      'Scholarship',
+      'TeachingBackground',
+      'ManagementBackground',
+      'ResearchBackground',
+      'HRBackground',
+      'S&TBackground',
+      'AcademicProduction',
+      'Award',
+      'Other']
   },
-  furtherTraining: {
-    type: { type: String, required: true, enum: ['CertificacionProfesional', 'CursoDePerfeccionamiento'] },
-    title: { type: String, required: true },
-    institution: { type: String, required: true },
-    startYear: { type: String, required: true },
-    duration: { type: String, required: true },
+  subType: {
+    type: String, required: false, enum: ['Secondary',
+      'NonUniversitary',
+      'NonUniversitary-PostTitle',
+      'Grade',
+      'Postgraduate-Specialization',
+      'Postgraduate-Master',
+      'Postgrado-Doctorado',
+      'Postgraduate-Doctorate',
+      'ProfessionalCertification',
+      'ImprovementCourse']
   },
-  scholarship: {
-    title: { type: String, required: true },
-    grantingInstitution: { type: String, required: true },
-    startYear: { type: String, required: true },
-    currentSituation: { type: String, required: true, enum: ['Ended', 'Current', 'Quit'] },
-    endYear: { type: String, required: true },
-  },
-  teachingBackground: {
-    type: { type: String, required: true, enum: ['PostGrado', 'Grado', 'NoUniversitario', 'Media'] },
-    position: { type: String, required: true },
-    subject: { type: String, required: true },
-    semanalHours: { type: String, required: true },
-    startYear: { type: String, required: true },
-    currentSituation: { type: String, required: true, enum: ['Ended', 'Current'] },
-    endYear: { type: String, required: true },
-  },
-};
+  title: { type: String, required: true },
+  institution: { type: String, required: false },
+  startYear: { type: String, required: true },
+  endYear: { type: String, required: true },
+  currentSituation: { type: String, required: false, enum: ['Ended', 'Current', 'Quit'] },
+  duration: { type: String, required: false },
+  position: { type: String, required: false },
+  subject: { type: String, required: false },
+  semanalHours: { type: String, required: fasle }
+}];
 
 module.exports = professionalInformationSchema;
