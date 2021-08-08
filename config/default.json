@@ -4,7 +4,7 @@
     "maxResultsLimit": 100
   },
   "mongo": {
-    "url": "mongodb://localhost:27017/eduSearch",
+    "url": "mongodb+srv://glarriera:35253231@cluster0.axmzb.mongodb.net/eduSearch",
     "database": "eduSearch"
   },
   "auth": {
