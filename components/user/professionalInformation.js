@@ -32,7 +32,7 @@ const professionalInformationSchema = [{
   duration: { type: String, required: false },
   position: { type: String, required: false },
   subject: { type: String, required: false },
-  semanalHours: { type: String, required: fasle }
+  semanalHours: { type: String, required: false }
 }];
 
 module.exports = professionalInformationSchema;
