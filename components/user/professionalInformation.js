@@ -7,7 +7,8 @@ const professionalInformationSchema = [{
       'ManagementBackground',
       'ResearchBackground',
       'HRBackground',
-      'S&TBackground',
+      'EvaluationBackground',
+      'STBackground',
       'AcademicProduction',
       'Award',
       'Other']
