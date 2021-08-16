@@ -175,7 +175,6 @@ async function findUserByToken(req, res, next) {
       .findOne({ _id: req.user._id })
       .lean()
       .exec()
-
       
     if (!user) {
         req.logger.verbose('User not found. Sending 404 to client')
@@ -188,28 +187,6 @@ async function findUserByToken(req, res, next) {
 
     req.logger.verbose('Sending user session to client')
     res.json({...user, professionalInformation})
-  } catch (err) {
-    next(err)
-  }
-}
-
-async function findUserPersonalInformation(req, res, next) {
-  req.logger.info(`Finding user with id ${req.user._id} using auth token`)
-
-  try {
-    const user = await req
-      .model('User')
-      .findOne({ _id: req.user._id })
-      .lean()
-      .exec()
-
-    if (!user) {
-      req.logger.verbose('User not found. Sending 404 to client')
-      return res.status(404).end()
-    }
-
-    req.logger.verbose('Sending user session to client')
-    res.json(user)
   } catch (err) {
     next(err)
   }
@@ -425,12 +402,16 @@ async function updateUserByToken(req, res, next) {
       req.logger.verbose('User not found')
       return res.status(404).end()
     }
+    req.logger.verbose('User updated')
 
     const user = await req.model('User').findOne({ _id: req.user._id })
 
-    req.logger.verbose('User updated')
+    const professionalInformation = await req
+      .model('Degree')
+      .find({ user: req.user._id })
 
-    return res.json({ user })
+    req.logger.verbose('Sending user session to client')
+    res.json({...user, professionalInformation})
   } catch (err) {
     return next(err)
   }
