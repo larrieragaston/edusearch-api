@@ -32,7 +32,6 @@ exports.up = (db, done) => {
         department: null,
         postalCode: 1414
       },
-      professionalInformation: null
     },
     {
       _id: new ObjectId('000000000000000000000001'),
@@ -58,7 +57,6 @@ exports.up = (db, done) => {
         department: null,
         postalCode: 1414
       },
-      professionalInformation: null
     },
     {
       _id: new ObjectId('000000000000000000000002'),
@@ -84,7 +82,6 @@ exports.up = (db, done) => {
         department: null,
         postalCode: 1414
       },
-      professionalInformation: null
     },
     {
       _id: new ObjectId('000000000000000000000003'),
@@ -109,8 +106,7 @@ exports.up = (db, done) => {
         floor: null,
         department: null,
         postalCode: 1414
-      },
-      professionalInformation: null
+      }
     },
     {
       _id: new ObjectId('000000000000000000000004'),
@@ -135,15 +131,7 @@ exports.up = (db, done) => {
         floor: null,
         department: null,
         postalCode: 1414
-      },
-      professionalInformation: [{
-        type: 'Degree',
-        subType: 'Secondary',
-        title: 'Bachiller',
-        institution: 'Escuela 1',
-        startYear: 2000,
-        endYear: 2006
-      }]
+      }
     },
     {
       _id: new ObjectId('000000000000000000000005'),
@@ -168,15 +156,7 @@ exports.up = (db, done) => {
         floor: null,
         department: null,
         postalCode: 1414
-      },
-      professionalInformation: [{
-        type: 'Degree',
-        subType: 'Secondary',
-        title: 'Bachiller',
-        institution: 'Escuela 1',
-        startYear: 2000,
-        endYear: 2006
-      }]
+      }
     },
     {
       _id: new ObjectId('000000000000000000000006'),
@@ -201,15 +181,7 @@ exports.up = (db, done) => {
         floor: null,
         department: null,
         postalCode: 1006
-      },
-      professionalInformation: [{
-        type: 'Degree',
-        subType: 'Secondary',
-        title: 'Bachiller',
-        institution: 'Escuela 1',
-        startYear: 2000,
-        endYear: 2006
-      }]
+      }
     },
     {
       _id: new ObjectId('000000000000000000000007'),
@@ -234,15 +206,7 @@ exports.up = (db, done) => {
         floor: null,
         department: null,
         postalCode: 1007
-      },
-      professionalInformation: [{
-        type: 'Degree',
-        subType: 'Secondary',
-        title: 'Bachiller',
-        institution: 'Escuela 1',
-        startYear: 2000,
-        endYear: 2006
-      }]
+      }
     },
     {
       _id: new ObjectId('000000000000000000000008'),
@@ -267,15 +231,7 @@ exports.up = (db, done) => {
         floor: null,
         department: null,
         postalCode: 1008
-      },
-      professionalInformation: [{
-        type: 'Degree',
-        subType: 'Secondary',
-        title: 'Bachiller',
-        institution: 'Escuela 1',
-        startYear: 2000,
-        endYear: 2006
-      }]
+      }
     },
     {
       _id: new ObjectId('000000000000000000000009'),
@@ -300,15 +256,7 @@ exports.up = (db, done) => {
         floor: null,
         department: null,
         postalCode: 1009
-      },
-      professionalInformation: [{
-        type: 'Degree',
-        subType: 'Secondary',
-        title: 'Bachiller',
-        institution: 'Escuela 1',
-        startYear: 2000,
-        endYear: 2006
-      }]
+      }
     },
     {
       _id: new ObjectId('000000000000000000000010'),
@@ -333,17 +281,8 @@ exports.up = (db, done) => {
         floor: null,
         department: null,
         postalCode: 1010
-      },
-      professionalInformation: [{
-        type: 'Degree',
-        subType: 'Secondary',
-        title: 'Bachiller',
-        institution: 'Escuela 1',
-        startYear: 2000,
-        endYear: 2006
-      }]
-    },
-
+      }
+    }
   ],
     done
   )

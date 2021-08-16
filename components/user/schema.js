@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const validate = require('mongoose-validator')
 const bcrypt = require('bcrypt')
 const Address = require('../address');
-const ProfessionalInformation = require('./professionalInformation');
 
 const { Schema } = mongoose
 const { ObjectId } = Schema.Types
@@ -23,7 +22,6 @@ const userSchema = new Schema({
     mobilePhone: { type: String, required: true, min: 6 },
     hasNotificationsEnabled: {type: Boolean, required: true, default: true},
     address: Address,
-    professionalInformation: ProfessionalInformation
 })
 
 userSchema.pre('validate', function validate(next) {

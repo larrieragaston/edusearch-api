@@ -1,12 +1,10 @@
 const { Router } = require('express')
-// const jwt = require('jsonwebtoken')
 const authenticate = require('../../src/authentication')
 
 const router = new Router()
 
 router.get('/contests/getContestById/:id', authenticate, findContestById)
 router.get('/contests/contestForUser', authenticate, findContestForUser)
-// router.get('/users/contestPostulations', authenticate, findContestPostulations)
 // router.get('/users/favouriteContest', authenticate, findFavouriteContest)
 
 async function findContestForUser(req, res, next) {
