@@ -1,11 +1,13 @@
 const { Router } = require('express')
 const authenticate = require('../../src/authentication')
 
+const mongodb = require('mongodb')
+const { ObjectId } = mongodb
+
 const router = new Router()
 
 router.get('/contests/getContestById/:id', authenticate, findContestById)
 router.get('/contests/contestForUser', authenticate, findContestForUser)
-// router.get('/users/favouriteContest', authenticate, findFavouriteContest)
 
 async function findContestForUser(req, res, next) {
   req.logger.info(`Finding contests for user with id ${req.user._id} using auth token`)
@@ -21,10 +23,15 @@ async function findContestForUser(req, res, next) {
     const postulations = await req
       .model('Postulation')
       .find({ user: req.user._id })
+      
+    const favourites = await req
+      .model('Favourite')
+      .find({ user: req.user._id })
 
     const contestsWithPostulations = contests.map(function (contest) {
       const hasPostulation = postulations.some(p => p.contest.equals(contest._id))
-      return { ...contest._doc, hasPostulation }
+      const isFavourite = favourites.some(p => p.contest.equals(contest._id))
+      return { ...contest._doc, hasPostulation, isFavourite }
     })
 
     req.logger.verbose('Sending contestsWithPostulations to client')
@@ -52,9 +59,13 @@ async function findContestById(req, res, next) {
 
     const postulation = await req
       .model('Postulation')
-      .find({ contest: contest._id, user: req.user._id })
+      .find({ contest: req.params.id, user: req.user._id })
 
-    const contestWithPostulation = { ...contest._doc, hasPostulation: postulation.length > 0 }
+    const favourite = await req
+      .model('Favourite')
+      .find({ contest: req.params.id, user: req.user._id })
+
+    const contestWithPostulation = { ...contest._doc, hasPostulation: postulation.length > 0, isFavourite: favourite.length > 0 }
 
     req.logger.verbose('Sending contestWithPostulation to client')
     return res.json(contestWithPostulation)
