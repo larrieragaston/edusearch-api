@@ -22,7 +22,7 @@ async function findPostulationsForUser(req, res, next) {
 }
 
 async function createPostulation(req, res, next) {
-  req.logger.info('Creating user', req.body)
+  req.logger.info('Creating postulation', req.body)
   try {
     const { contest } = req.body
 

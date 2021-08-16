@@ -176,13 +176,18 @@ async function findUserByToken(req, res, next) {
       .lean()
       .exec()
 
+      
     if (!user) {
-      req.logger.verbose('User not found. Sending 404 to client')
-      return res.status(404).end()
+        req.logger.verbose('User not found. Sending 404 to client')
+        return res.status(404).end()
     }
+    
+    const professionalInformation = await req
+      .model('Degree')
+      .find({ user: req.user._id })
 
     req.logger.verbose('Sending user session to client')
-    res.json(user)
+    res.json({...user, professionalInformation})
   } catch (err) {
     next(err)
   }
