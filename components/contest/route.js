@@ -1,9 +1,6 @@
 const { Router } = require('express')
 const authenticate = require('../../src/authentication')
 
-const mongodb = require('mongodb')
-const { ObjectId } = mongodb
-
 const router = new Router()
 
 router.get('/contests/getContestById/:id', authenticate, findContestById)
