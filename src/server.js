@@ -132,6 +132,7 @@ function setupExpressRoutes(server) {
   server.app.use('/', components.contest.route)
   server.app.use('/', components.postulation.route)
   server.app.use('/', components.degree.route)
+  server.app.use('/', components.favourite.route)
   server.logger.verbose('Resource routers attached')
 }
 
