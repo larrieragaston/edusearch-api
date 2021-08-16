@@ -404,8 +404,12 @@ async function updateUserByToken(req, res, next) {
     }
     req.logger.verbose('User updated')
 
-    const user = await req.model('User').findOne({ _id: req.user._id })
-
+    const user = await req
+      .model('User')
+      .findOne({ _id: req.user._id })
+      .lean()
+      .exec()
+      
     const professionalInformation = await req
       .model('Degree')
       .find({ user: req.user._id })
