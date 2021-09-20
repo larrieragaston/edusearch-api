@@ -9,7 +9,6 @@ const contestSchema = new Schema({
   day: { type: String, required: true },
   startsAt: { type: String, required: true },
   endsAt: { type: String, required: true },
-  createdDate: { type: Date, required: true },
   dueDate: { type: Date, required: true },
   active: { type: Boolean, required: true },
   requirements:  { type : Array , "default" : [] },

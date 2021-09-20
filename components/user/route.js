@@ -1,8 +1,12 @@
 const { Router } = require('express')
 const jwt = require('jsonwebtoken')
 const authenticate = require('../../src/authentication')
+const multer = require('multer')
+const uuid = require('uuid')
 
 const router = new Router()
+const storage = multer.memoryStorage()
+const upload = multer({ storage })
 
 router.post('/users/login', createUserToken)
 // router.post('/users', authenticate, createUser)
@@ -18,6 +22,8 @@ router.put('/users/me', authenticate, updateUserByToken)
 // router.put('/users/password/:token', resetUserPassword)
 // router.put('/users/:email/password-reset', sendUserPasswordResetByEmail)
 // router.get('/users/updateUser', authenticate, updateUser)
+router.post('/prescription', authenticate, upload.single('prescription'), createPrescription)
+router.delete('/prescription/:id', authenticate, removePrescriptionById)
 
 async function createUserToken(req, res, next) {
   req.logger.info(`Creating user token`)
@@ -63,12 +69,31 @@ async function createUserToken(req, res, next) {
 
     const payload = {
       _id: user._id,
-      role: user.role
+      role: user.role,
+      university: user.university
     }
 
     const token = jwt.sign(payload, req.config.auth.token.secret, {
       expiresIn: req.config.auth.token.ttl
     })
+
+    // await req.mailer.send({
+    //   from: req.config.sender.email,
+    //   to: user.email,
+    //   subject: 'Bienvenido a EduSearh',
+    //   html: req.mailer.getInviteTemplate(verificationToken, passwordResetToken)
+    // })
+
+
+      // req.logger.verbose('Sending email')
+      // await req.sendEmail({
+      //   from: 'support@geomedic.com',
+      //   to: user.email,
+      //   subject: 'Logueo exitoso en el sistema',
+      //   text: `Se ha detectado que ingreso en nuestro sistema, si no es usted, por favor, cambie su contraseña`
+      // })
+      // req.logger.verbose('Email sended')
+
 
     res.status(201).send({ token: `Bearer ${token}`, user: user.toJSON() })
   } catch (err) {
@@ -416,6 +441,75 @@ async function updateUserByToken(req, res, next) {
 
     req.logger.verbose('Sending user session to client')
     res.json({...user, professionalInformation})
+  } catch (err) {
+    return next(err)
+  }
+}
+
+async function createPrescription(req, res, next) {
+  req.logger.info('Creating Prescription', req.body)
+
+  try {
+    if (!req.file) {
+      return res.status(404).end('File is required')
+    }
+
+    const created = await req.model('Prescription').create({ ...req.body })
+
+    const prescription = await req
+      .model('Prescription')
+      .findById(created._id)
+      .populate('doctor patient')
+
+    const { buffer, mimetype, size } = req.file
+    // eslint-disable-next-line no-unused-vars
+    const [type, format] = mimetype.split('/')
+    const name = uuid.v4()
+    const s3Key = `tp-app-interactivas-uade/prescriptions/${name}.${format}`
+
+    await req.s3.upload({
+      buffer,
+      key: s3Key,
+      contentType: mimetype,
+      contentLength: size
+    })
+
+    prescription.prescription = {
+      key: s3Key,
+      mimeType: mimetype,
+      size
+    }
+
+    await prescription.save()
+
+    req.logger.verbose('Sending Prescription to client')
+    return res.json(prescription)
+  } catch (err) {
+    return next(err)
+  }
+}
+
+async function removePrescriptionById(req, res, next) {
+  req.logger.info(`Removing Prescription with id ${req.params.id}`)
+  try {
+    const prescription = await req
+      .model('Prescription')
+      .findById(req.params.id)
+      .populate('doctor patient')
+
+    if (!prescription) {
+      req.logger.verbose('Prescription not found')
+      return res.status(404).end()
+    }
+
+    if (prescription.prescription.key) {
+      await req.s3.remove(prescription.prescription.key)
+    }
+
+    await req.model('Prescription').remove({ _id: req.params.id })
+
+    req.logger.verbose('Prescription removed')
+    return res.status(204).end()
   } catch (err) {
     return next(err)
   }

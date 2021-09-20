@@ -15,7 +15,14 @@
     }
   },
   "sender": {
-    "email": "admin@edusearch.com.ar"
+    "email": "no-reply@edusearch.com.ar",
+    "user": "jdoe13042@gmail.com",
+    "pass": "xnamwjqjwqqjwjqw"
+  },
+  "aws": {
+    "bucket": "bucket-glarriera-personal",
+    "accessKeyId": "",
+    "secretAccessKey": ""
   },
   "logger": {
     "console": {

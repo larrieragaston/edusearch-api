@@ -63,6 +63,7 @@ function setupMongooseModels(db) {
   db.mongoose.model('Postulation', components.postulation.schema)
   db.mongoose.model('Degree', components.degree.schema)
   db.mongoose.model('Favourite', components.favourite.schema)
+  db.mongoose.model('Score', components.score.schema)
   db.logger.verbose('Models registered')
 }
 
