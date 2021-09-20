@@ -21,8 +21,8 @@
   },
   "aws": {
     "bucket": "bucket-glarriera-personal",
-    "accessKeyId": "",
-    "secretAccessKey": ""
+    "accessKeyId": "AKIAX5ILOR4WTSSM6KP2",
+    "secretAccessKey": "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"
   },
   "logger": {
     "console": {

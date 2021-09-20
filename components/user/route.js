@@ -22,7 +22,7 @@ router.put('/users/me', authenticate, updateUserByToken)
 // router.put('/users/password/:token', resetUserPassword)
 // router.put('/users/:email/password-reset', sendUserPasswordResetByEmail)
 // router.get('/users/updateUser', authenticate, updateUser)
-router.post('/prescription', authenticate, upload.single('prescription'), createPrescription)
+router.post('/users/me/img', authenticate, upload.single('profilePicture'), uploadUserImg)
 router.delete('/prescription/:id', authenticate, removePrescriptionById)
 
 async function createUserToken(req, res, next) {
@@ -130,17 +130,17 @@ async function createUniversityUser(req, res, next) {
         req.model('University').findById(req.params.universityId),
         req.model('User').create({ ...req.body, university: req.params.universityId })
       ])
-  
+
       const verificationToken = await user.generateVerificationToken()
       const passwordResetToken = await user.generatePasswordResetToken()
-  
+
       await req.mailer.send({
         from: university.email,
         to: user.email,
         subject: `Invitacion ${university.name} a EduSearch`,
         html: req.mailer.getInviteTemplate(verificationToken, passwordResetToken)
       })
-  
+
       req.logger.verbose('Sending invitation to university user')
       res.json(user)
     } catch (err) {
@@ -161,7 +161,7 @@ async function findUsersByUniversity(req, res, next) {
           limit: req.limit
         }
       )
-  
+
       req.logger.verbose('Sending users to client')
       res.json(result)
     } catch (err) {
@@ -200,12 +200,12 @@ async function findUserByToken(req, res, next) {
       .findOne({ _id: req.user._id })
       .lean()
       .exec()
-      
+
     if (!user) {
         req.logger.verbose('User not found. Sending 404 to client')
         return res.status(404).end()
     }
-    
+
     const professionalInformation = await req
       .model('Degree')
       .find({ user: req.user._id })
@@ -434,7 +434,7 @@ async function updateUserByToken(req, res, next) {
       .findOne({ _id: req.user._id })
       .lean()
       .exec()
-      
+
     const professionalInformation = await req
       .model('Degree')
       .find({ user: req.user._id })
@@ -446,26 +446,19 @@ async function updateUserByToken(req, res, next) {
   }
 }
 
-async function createPrescription(req, res, next) {
-  req.logger.info('Creating Prescription', req.body)
+async function uploadUserImg(req, res, next) {
+  req.logger.info('Uploading user img')
 
   try {
     if (!req.file) {
       return res.status(404).end('File is required')
     }
 
-    const created = await req.model('Prescription').create({ ...req.body })
-
-    const prescription = await req
-      .model('Prescription')
-      .findById(created._id)
-      .populate('doctor patient')
-
     const { buffer, mimetype, size } = req.file
     // eslint-disable-next-line no-unused-vars
     const [type, format] = mimetype.split('/')
     const name = uuid.v4()
-    const s3Key = `tp-app-interactivas-uade/prescriptions/${name}.${format}`
+    const s3Key = `edusearch/users-profile/${name}.${format}`
 
     await req.s3.upload({
       buffer,
@@ -474,16 +467,15 @@ async function createPrescription(req, res, next) {
       contentLength: size
     })
 
-    prescription.prescription = {
-      key: s3Key,
-      mimeType: mimetype,
-      size
-    }
+    const user = await req
+      .model('User')
+      .findById(req.user._id)
 
-    await prescription.save()
+    user.mediaUrl = s3Key
+    await user.save()
 
-    req.logger.verbose('Sending Prescription to client')
-    return res.json(prescription)
+    req.logger.verbose('Sending User back to client')
+    return res.json(user)
   } catch (err) {
     return next(err)
   }
