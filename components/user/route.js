@@ -23,7 +23,6 @@ router.put('/users/me', authenticate, updateUserByToken)
 // router.put('/users/:email/password-reset', sendUserPasswordResetByEmail)
 // router.get('/users/updateUser', authenticate, updateUser)
 router.post('/users/me/img', authenticate, upload.single('profilePicture'), uploadUserImg)
-router.delete('/prescription/:id', authenticate, removePrescriptionById)
 
 async function createUserToken(req, res, next) {
   req.logger.info(`Creating user token`)
@@ -476,32 +475,6 @@ async function uploadUserImg(req, res, next) {
 
     req.logger.verbose('Sending User back to client')
     return res.json(user)
-  } catch (err) {
-    return next(err)
-  }
-}
-
-async function removePrescriptionById(req, res, next) {
-  req.logger.info(`Removing Prescription with id ${req.params.id}`)
-  try {
-    const prescription = await req
-      .model('Prescription')
-      .findById(req.params.id)
-      .populate('doctor patient')
-
-    if (!prescription) {
-      req.logger.verbose('Prescription not found')
-      return res.status(404).end()
-    }
-
-    if (prescription.prescription.key) {
-      await req.s3.remove(prescription.prescription.key)
-    }
-
-    await req.model('Prescription').remove({ _id: req.params.id })
-
-    req.logger.verbose('Prescription removed')
-    return res.status(204).end()
   } catch (err) {
     return next(err)
   }

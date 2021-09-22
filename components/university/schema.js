@@ -20,7 +20,7 @@ const universitySchema = new Schema({
 	phoneNumber: { type: String, required: false },
 	url: { type: String, required: false },
 	level: { type: String, required: false },
-	logo: { type: String, required: true },
+	logoUrl: { type: String, required: false },
 });
 
 module.exports = universitySchema;
