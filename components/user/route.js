@@ -1,8 +1,12 @@
 const { Router } = require('express')
 const jwt = require('jsonwebtoken')
 const authenticate = require('../../src/authentication')
+const multer = require('multer')
+const uuid = require('uuid')
 
 const router = new Router()
+const storage = multer.memoryStorage()
+const upload = multer({ storage })
 
 router.post('/users/login', createUserToken)
 // router.post('/users', authenticate, createUser)
@@ -18,6 +22,7 @@ router.put('/users/me', authenticate, updateUserByToken)
 // router.put('/users/password/:token', resetUserPassword)
 // router.put('/users/:email/password-reset', sendUserPasswordResetByEmail)
 // router.get('/users/updateUser', authenticate, updateUser)
+router.post('/users/me/img', authenticate, upload.single('profilePicture'), uploadUserImg)
 
 async function createUserToken(req, res, next) {
   req.logger.info(`Creating user token`)
@@ -63,12 +68,31 @@ async function createUserToken(req, res, next) {
 
     const payload = {
       _id: user._id,
-      role: user.role
+      role: user.role,
+      university: user.university
     }
 
     const token = jwt.sign(payload, req.config.auth.token.secret, {
       expiresIn: req.config.auth.token.ttl
     })
+
+    // await req.mailer.send({
+    //   from: req.config.sender.email,
+    //   to: user.email,
+    //   subject: 'Bienvenido a EduSearh',
+    //   html: req.mailer.getInviteTemplate(verificationToken, passwordResetToken)
+    // })
+
+
+      // req.logger.verbose('Sending email')
+      // await req.sendEmail({
+      //   from: 'support@geomedic.com',
+      //   to: user.email,
+      //   subject: 'Logueo exitoso en el sistema',
+      //   text: `Se ha detectado que ingreso en nuestro sistema, si no es usted, por favor, cambie su contraseña`
+      // })
+      // req.logger.verbose('Email sended')
+
 
     res.status(201).send({ token: `Bearer ${token}`, user: user.toJSON() })
   } catch (err) {
@@ -105,17 +129,17 @@ async function createUniversityUser(req, res, next) {
         req.model('University').findById(req.params.universityId),
         req.model('User').create({ ...req.body, university: req.params.universityId })
       ])
-  
+
       const verificationToken = await user.generateVerificationToken()
       const passwordResetToken = await user.generatePasswordResetToken()
-  
+
       await req.mailer.send({
         from: university.email,
         to: user.email,
         subject: `Invitacion ${university.name} a EduSearch`,
         html: req.mailer.getInviteTemplate(verificationToken, passwordResetToken)
       })
-  
+
       req.logger.verbose('Sending invitation to university user')
       res.json(user)
     } catch (err) {
@@ -136,7 +160,7 @@ async function findUsersByUniversity(req, res, next) {
           limit: req.limit
         }
       )
-  
+
       req.logger.verbose('Sending users to client')
       res.json(result)
     } catch (err) {
@@ -175,12 +199,12 @@ async function findUserByToken(req, res, next) {
       .findOne({ _id: req.user._id })
       .lean()
       .exec()
-      
+
     if (!user) {
         req.logger.verbose('User not found. Sending 404 to client')
         return res.status(404).end()
     }
-    
+
     const professionalInformation = await req
       .model('Degree')
       .find({ user: req.user._id })
@@ -409,13 +433,48 @@ async function updateUserByToken(req, res, next) {
       .findOne({ _id: req.user._id })
       .lean()
       .exec()
-      
+
     const professionalInformation = await req
       .model('Degree')
       .find({ user: req.user._id })
 
     req.logger.verbose('Sending user session to client')
     res.json({...user, professionalInformation})
+  } catch (err) {
+    return next(err)
+  }
+}
+
+async function uploadUserImg(req, res, next) {
+  req.logger.info('Uploading user img')
+
+  try {
+    if (!req.file) {
+      return res.status(404).end('File is required')
+    }
+
+    const { buffer, mimetype, size } = req.file
+    // eslint-disable-next-line no-unused-vars
+    const [type, format] = mimetype.split('/')
+    const name = uuid.v4()
+    const s3Key = `edusearch/users-profile/${name}.${format}`
+
+    await req.s3.upload({
+      buffer,
+      key: s3Key,
+      contentType: mimetype,
+      contentLength: size
+    })
+
+    const user = await req
+      .model('User')
+      .findById(req.user._id)
+
+    user.mediaUrl = s3Key
+    await user.save()
+
+    req.logger.verbose('Sending User back to client')
+    return res.json(user)
   } catch (err) {
     return next(err)
   }

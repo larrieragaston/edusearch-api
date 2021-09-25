@@ -6,6 +6,8 @@ const helmet = require('helmet')
 const cors = require('cors')
 const compression = require('compression')
 const { promisify } = require('util')
+const Mailer = require('./mailer')
+const S3 = require('./s3')
 
 const authorization = require('./authorization')
 const components = require('../components')
@@ -18,12 +20,16 @@ const statusCodeByErrorName = {
 
 function createServer({ config, database, logger }) {
   const app = express()
+  const mailer = new Mailer(config, logger)
+  const s3 = new S3(config, logger)
   const server = {
     httpServer: http.createServer(app),
     logger: logger.child({ context: 'Server' }),
     app,
     config,
-    database
+    database,
+    mailer,
+    s3
   }
 
   server.listen = function listen() {
@@ -53,6 +59,8 @@ function setupExpressMiddleware(server) {
   /* eslint-disable no-param-reassign */
   server.app.request.config = config
   server.app.request.logger = logger
+  server.app.request.sendEmail = (...args) => server.mailer.send(...args)
+  server.app.request.s3 = server.s3
   server.app.request.model = (...args) => server.database.model(...args)
   server.app.request.pingDatabase = () => server.database.ping()
   /* eslint-enable no-param-reassign */
@@ -133,6 +141,8 @@ function setupExpressRoutes(server) {
   server.app.use('/', components.postulation.route)
   server.app.use('/', components.degree.route)
   server.app.use('/', components.favourite.route)
+  server.app.use('/', components.university.route)
+  server.app.use('/', components.score.route)
   server.logger.verbose('Resource routers attached')
 }
 
