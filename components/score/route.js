@@ -13,7 +13,7 @@ async function findScoresByUniversity(req, res, next) {
 	);
 
 	try {
-		const scores = await req.model("Score").find({ _id: req.user.university });
+		const scores = await req.model("Score").findOne({ university: req.user.university });
 
 		req.logger.verbose("Sending scores to client");
 		return res.json(scores);
