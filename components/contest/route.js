@@ -12,6 +12,24 @@ router.get(
 );
 router.get("/contests/favouriteForUser", authenticate, findFavouritesForUser);
 router.post("/contests/createContest", authenticate, createContest);
+router.put("/contests/editContest/:id", authenticate, editContest);
+router.get(
+	"/contests/draftContestsForUniversity",
+	authenticate,
+	findDraftContestsForUniversity
+);
+router.get(
+	"/contests/activeContestsForUniversity",
+	authenticate,
+	findActiveContestsForUniversity
+);
+router.get(
+	"/contests/endedContestsForUniversity",
+	authenticate,
+	findEndedContestsForUniversity
+);
+router.put("/contests/nextStage/:id", authenticate, nextStage);
+router.get("/contests/getPostulationsByContest/:id", authenticate, findPostulationsByContestId);
 
 async function findContestById(req, res, next) {
 	req.logger.info(`Finding contest with id ${req.params.id} using auth token`);
@@ -45,6 +63,28 @@ async function findContestById(req, res, next) {
 
 		req.logger.verbose("Sending contestWithPostulation to client");
 		return res.json(contestWithPostulation);
+	} catch (err) {
+		return next(err);
+	}
+}
+
+async function findPostulationsByContestId(req, res, next) {
+	req.logger.info(`Finding postulations for constest id ${req.params.id}`);
+
+	try {
+		const postulations = await req
+			.model("Postulation")
+			.find({contest: req.params.id})
+			.populate("user")
+			.sort({ date: 1 });
+
+		if (!postulations) {
+			req.logger.verbose("Postulations not found. Sending 404 to client");
+			return res.status(404).end();
+		}
+
+		req.logger.verbose("Sending postulations to client");
+		return res.json(postulations);
 	} catch (err) {
 		return next(err);
 	}
@@ -174,9 +214,6 @@ async function createContest(req, res, next) {
 	try {
 		const user = await req.model("User").findOne({ _id: req.user._id });
 
-    console.log('user')
-    console.log(user.university)
-    
 		if (!user) {
 			req.logger.verbose("User not found. Sending 404 to client");
 			return res.status(404).end();
@@ -185,11 +222,8 @@ async function createContest(req, res, next) {
 		const contest = await req.model("Contest").create({
 			...req.body,
 			university: user.university,
-			activeStage: 1,
+			activeStage: 0,
 		});
-
-		console.log("contest");
-		console.log(contest);
 
 		if (!contest) {
 			req.logger.verbose("Contest not created. Sending 404 to client");
@@ -200,6 +234,183 @@ async function createContest(req, res, next) {
 		return res.json(contest);
 	} catch (err) {
 		return next(err);
+	}
+}
+
+async function editContest(req, res, next) {
+	req.logger.info(`Updating contest with id ${req.params.id}`);
+
+	try {
+		const user = await req.model("User").findOne({ _id: req.user._id });
+
+		if (!user) {
+			req.logger.verbose("User not found. Sending 404 to client");
+			return res.status(404).end();
+		}
+
+		const results = await req.model("Contest").update(
+			{ _id: req.params.id },
+			{
+				...req.body,
+				university: user.university,
+				activeStage: 0,
+			}
+		);
+
+		if (results.n < 1) {
+			req.logger.verbose("Contest not found");
+			return res.status(404).end();
+		}
+
+		req.logger.verbose("Contest updated");
+
+		req.logger.verbose("Sending contest to client");
+		return res.json(null);
+	} catch (err) {
+		return next(err);
+	}
+}
+
+async function nextStage(req, res, next) {
+	req.logger.info(`Updating contest with id ${req.params.id}`);
+
+	try {
+		// const contest = await req.model("Contest").find({_id: req.params.id})
+
+		// if (!contest) {
+		// 	req.logger.verbose("User not found. Sending 404 to client");
+		// 	return res.status(404).end();
+		// }
+
+		const contest = await req
+			.model("Contest")
+			.findOneAndUpdate({ _id: req.params.id }, { $inc: { activeStage: 1 } }, {new: true});
+
+		if (contest.n < 1) {
+			req.logger.verbose("Contest not found");
+			return res.status(404).end();
+		}
+
+		req.logger.verbose("Contest updated");
+
+		req.logger.verbose("Sending contest to client");
+		return res.json(contest);
+	} catch (err) {
+		return next(err);
+	}
+}
+
+async function findDraftContestsForUniversity(req, res, next) {
+	req.logger.info(
+		`Finding draft contests for university with id ${req.user.university} using auth token`
+	);
+
+	try {
+		const university = await req
+			.model("University")
+			.findById(req.user.university);
+
+		if (!university) {
+			req.logger.verbose("University not found");
+			return res.status(404).end();
+		}
+
+		const contests = await req
+			.model("Contest")
+			.find({ active: false })
+			.populate("university")
+			.populate("career")
+			.populate("subject");
+
+		if (!contests) {
+			req.logger.verbose("Contests not found. Sending 404 to client");
+			return res.status(404).end();
+		}
+
+		const filteredContests = contests.filter(
+			(c) => c.university._id == req.user.university
+		);
+
+		req.logger.verbose("Sending all filteredContests to client");
+		res.json(filteredContests);
+	} catch (err) {
+		next(err);
+	}
+}
+
+async function findActiveContestsForUniversity(req, res, next) {
+	req.logger.info(
+		`Finding active contests for university with id ${req.user.university} using auth token`
+	);
+
+	try {
+		const university = await req
+			.model("University")
+			.findById(req.user.university);
+
+		if (!university) {
+			req.logger.verbose("University not found");
+			return res.status(404).end();
+		}
+
+		const contests = await req
+			.model("Contest")
+			.find({ active: true })
+			.populate("university")
+			.populate("career")
+			.populate("subject");
+
+		if (!contests) {
+			req.logger.verbose("Contests not found. Sending 404 to client");
+			return res.status(404).end();
+		}
+
+		const filteredContests = contests.filter(
+			(c) => c.university._id == req.user.university
+		);
+
+		req.logger.verbose("Sending all filteredContests to client");
+		res.json(filteredContests);
+	} catch (err) {
+		next(err);
+	}
+}
+
+async function findEndedContestsForUniversity(req, res, next) {
+	req.logger.info(
+		`Finding ended contests for university with id ${req.user.university} using auth token`
+	);
+
+	try {
+		const university = await req
+			.model("University")
+			.findById(req.user.university);
+
+		if (!university) {
+			req.logger.verbose("Contests not found");
+			return res.status(404).end();
+		}
+
+		const contests = await req
+			.model("Contest")
+			.find({ activeStage: 6 })
+			.populate("university")
+			.populate("career")
+			.populate("subject");
+
+		if (!contests) {
+			req.logger.verbose("Contests not found. Sending 404 to client");
+			return res.status(404).end();
+		}
+
+		const filteredContests = contests.filter(
+			(c) => c.university._id == req.user.university
+		);
+
+		req.logger.verbose("Sending all filteredContests to client");
+		res.json(filteredContests);
+	} catch (err) {
+		next(err);
 	}
 }
 
