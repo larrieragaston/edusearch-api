@@ -29,7 +29,11 @@ router.get(
 	findEndedContestsForUniversity
 );
 router.put("/contests/nextStage/:id", authenticate, nextStage);
-router.get("/contests/getPostulationsByContest/:id", authenticate, findPostulationsByContestId);
+router.get(
+	"/contests/getPostulationsByContest/:id",
+	authenticate,
+	findPostulationsByContestId
+);
 
 async function findContestById(req, res, next) {
 	req.logger.info(`Finding contest with id ${req.params.id} using auth token`);
@@ -74,7 +78,7 @@ async function findPostulationsByContestId(req, res, next) {
 	try {
 		const postulations = await req
 			.model("Postulation")
-			.find({contest: req.params.id})
+			.find({ contest: req.params.id })
 			.populate("user")
 			.sort({ date: 1 });
 
@@ -284,7 +288,11 @@ async function nextStage(req, res, next) {
 
 		const contest = await req
 			.model("Contest")
-			.findOneAndUpdate({ _id: req.params.id }, { $inc: { activeStage: 1 } }, {new: true});
+			.findOneAndUpdate(
+				{ _id: req.params.id },
+				{ $inc: { activeStage: 1 } },
+				{ new: true }
+			);
 
 		if (contest.n < 1) {
 			req.logger.verbose("Contest not found");
@@ -355,7 +363,17 @@ async function findActiveContestsForUniversity(req, res, next) {
 
 		const contests = await req
 			.model("Contest")
-			.find({ active: true })
+			.find({
+				$and: [
+					{ active: true },
+					{
+						$or: [
+							{ hasColloquium: true, activeStage: { $ne: 6 } },
+							{ hasColloquium: false, activeStage: { $ne: 5 } },
+						],
+					},
+				],
+			})
 			.populate("university")
 			.populate("career")
 			.populate("subject");
@@ -393,7 +411,9 @@ async function findEndedContestsForUniversity(req, res, next) {
 
 		const contests = await req
 			.model("Contest")
-			.find({ activeStage: 6 })
+			.find({
+				$or: [{ activeStage: 6 }, { hasColloquium: false, activeStage: 5 }],
+			})
 			.populate("university")
 			.populate("career")
 			.populate("subject");
