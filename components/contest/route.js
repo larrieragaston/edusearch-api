@@ -29,11 +29,187 @@ router.get(
 	findEndedContestsForUniversity
 );
 router.put("/contests/nextStage/:id", authenticate, nextStage);
+router.put(
+	"/contests/closeContest/:id",
+	authenticate,
+	calculateContestScoresById
+);
 router.get(
 	"/contests/getPostulationsByContest/:id",
 	authenticate,
 	findPostulationsByContestId
 );
+
+async function calculateContestScoresById(req, res, next) {
+	req.logger.info(`Finding contest with id ${req.params.id} using auth token`);
+
+	try {
+		req.logger.info(
+			`Finding contest with id ${req.params.id} using auth token`
+		);
+		const contest = await req.model("Contest").findOne({ _id: req.params.id });
+
+		if (!contest) {
+			req.logger.verbose("Contest not found. Sending 404 to client");
+			return res.status(404).end();
+		}
+
+		req.logger.info(
+			`Finding UniversityScores with university id ${req.user.university} using auth token`
+		);
+		const universityScore = await req
+			.model("Score")
+			.findOne({ university: req.user.university });
+
+		if (!universityScore) {
+			req.logger.verbose("Contest not found. Sending 404 to client");
+			return res.status(404).end();
+		}
+
+		req.logger.info(
+			`Finding postulations with university id ${req.user.university} using auth token`
+		);
+		const postulations = await req
+			.model("Postulation")
+			.find({ contest: req.params.id })
+			.populate("user");
+		req.logger.info(
+			`Where Found ${postulations.length} postulations for contest ${req.params.id}`
+		);
+
+		if (postulations.length == 0) {
+			req.logger.verbose(
+				"The selected Contest have no postulations to score. Sending 200 to client"
+			);
+			return res.status(200).end();
+		}
+
+		req.logger.info(`Finding all Degrees`);
+		const degrees = await req.model("Degree").find();
+		req.logger.info(`${degrees.length} degrees where found`);
+
+		req.logger.info(`Loading degrees for postulated Users`);
+		const postulationsWithDegrees = postulations.map((p) => {
+			const userDegrees = degrees.filter((d) => {
+				return d.user.equals(p.user._id);
+			});
+			return { postulation: p, degrees: userDegrees };
+		});
+
+		req.logger.info(`Calculating d escore for every postulation`);
+		postulationsWithDegrees.forEach(async (pwd) => {
+			req.logger.info(
+				`Initializing teacherScore in 0 for postulation ${pwd._id}`
+			);
+			let teacherScore = 0;
+			req.logger.info(`The user has ${pwd.degrees.length} degrees`);
+			pwd.degrees.forEach((d) => {
+				req.logger.info(`Evaluating ${d.type} degree for user`);
+				switch (d.type) {
+					case "Degree":
+						switch (d.subType) {
+							case "Secondary":
+								teacherScore += universityScore.degreeSecondary ?? 0;
+								break;
+							case "NonUniversitary":
+								teacherScore += universityScore.degreeNonUni ?? 0;
+								break;
+							case "NonUniversitary-PostTitle":
+								teacherScore += universityScore.degreeNonUniPostTitle ?? 0;
+								break;
+							case "Grade":
+								teacherScore += universityScore.degreeGrade ?? 0;
+								break;
+							case "Postgraduate-Specialization":
+								teacherScore += universityScore.degreePostgraSpecial ?? 0;
+								break;
+							case "Postgraduate-Master":
+								teacherScore += universityScore.degreePostgraMaster ?? 0;
+								break;
+							case "Postgraduate-Doctorate":
+								teacherScore += universityScore.degreePostgraDoctorate ?? 0;
+								break;
+							default:
+								break;
+						}
+						break;
+					case "FurtherTraining":
+						teacherScore += universityScore.furtherTraining ?? 0;
+						break;
+					case "Scholarship":
+						teacherScore += universityScore.scholarship ?? 0;
+						break;
+					case "TeachingBackground":
+						teacherScore += universityScore.teachingBackground ?? 0;
+						break;
+					case "ManagementBackground":
+						teacherScore += universityScore.managementBackground ?? 0;
+						break;
+					case "ResearchBackground":
+						teacherScore += universityScore.researchBackground ?? 0;
+						break;
+					case "HRBackground":
+						teacherScore += universityScore.hRBackground ?? 0;
+						break;
+					case "EvaluationBackground":
+						teacherScore += universityScore.evaluationBackground ?? 0;
+						break;
+					case "STBackground":
+						teacherScore += universityScore.sTBackground ?? 0;
+						break;
+					case "AcademicProduction":
+						teacherScore += universityScore.academicProduction ?? 0;
+						break;
+					case "Award":
+						teacherScore += universityScore.award ?? 0;
+						break;
+					case "Other":
+						teacherScore += universityScore.other ?? 0;
+						break;
+					default:
+						break;
+				}
+				req.logger.info(`The teacherScore calculated is ${teacherScore}`);
+			});
+
+			req.logger.info(
+				`Updating postulation ${pwd.postulation._id} with score ${teacherScore}`
+			);
+			const results = await req.model("Postulation").update(
+				{ _id: pwd.postulation._id },
+				{
+					postulationScore: teacherScore,
+				}
+			);
+
+			if (results.n < 1) {
+				req.logger.verbose("Postulation not found");
+				return res.status(404).end();
+			}
+		});
+
+		req.logger.info(`Updating contest ${req.params.id} to the next stage`);
+		const contest2 = await req
+			.model("Contest")
+			.findOneAndUpdate(
+				{ _id: req.params.id },
+				{ $inc: { activeStage: 1 } },
+				{ new: true }
+			);
+
+		if (contest2.n < 1) {
+			req.logger.verbose("Contest not found");
+			return res.status(404).end();
+		}
+
+		req.logger.verbose("Contest Closed");
+
+		req.logger.verbose("Sending contest to client");
+		return res.json(contest2);
+	} catch (err) {
+		return next(err);
+	}
+}
 
 async function findContestById(req, res, next) {
 	req.logger.info(`Finding contest with id ${req.params.id} using auth token`);
@@ -80,7 +256,7 @@ async function findPostulationsByContestId(req, res, next) {
 			.model("Postulation")
 			.find({ contest: req.params.id })
 			.populate("user")
-			.sort({ date: 1 });
+			.sort({ postulationScore: -1, date: 1 });
 
 		if (!postulations) {
 			req.logger.verbose("Postulations not found. Sending 404 to client");
@@ -279,13 +455,6 @@ async function nextStage(req, res, next) {
 	req.logger.info(`Updating contest with id ${req.params.id}`);
 
 	try {
-		// const contest = await req.model("Contest").find({_id: req.params.id})
-
-		// if (!contest) {
-		// 	req.logger.verbose("User not found. Sending 404 to client");
-		// 	return res.status(404).end();
-		// }
-
 		const contest = await req
 			.model("Contest")
 			.findOneAndUpdate(
