@@ -82,6 +82,10 @@ userSchema.method('checkPassword', async function checkPassword(
     return { isOk: isMatch }
 })
 
+userSchema.statics.hashPassword = async function hashPassword(password) {
+    return bcrypt.hash(password, 10)
+  }
+  
 userSchema.static('verifyWithToken', async function verifyWithToken(
     rawVerificationToken,
     tokenTTL

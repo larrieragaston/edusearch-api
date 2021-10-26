@@ -463,9 +463,13 @@ async function updateUserPassword(req, res, next) {
 async function updateUserByToken(req, res, next) {
 	req.logger.info(`Updating user with id: ${req.user._id}`);
 	try {
-		// if (req.body.password) {
-		//   req.body.password = await req.model('User').hashPassword(req.body.password)
-		// }
+		if (req.body.password) {
+		  req.body.password = await req.model('User').hashPassword(req.body.password)
+		}
+		else {
+			delete req.body.password
+		}
+
 		const results = await req
 			.model("User")
 			.update({ _id: req.user._id }, req.body);
