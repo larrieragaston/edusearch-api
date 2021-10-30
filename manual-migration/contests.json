@@ -29,7 +29,8 @@
         "endsAt": "12:00",
         "createdDate": "2021-01-01",
         "dueDate": "2022-01-01",
-        "active": true,
+        "isDraft": false,
+        "isClosed": true,
         "requirements": [
             { "name": "Acá enlistas los requisitos del docente", "optional": false },
             { "name": "Como cinco o seis cosas.", "optional": false },
@@ -70,7 +71,8 @@
         "endsAt": "12:00",
         "createdDate": "2021-01-01",
         "dueDate": "2022-01-01",
-        "active": true,
+        "isDraft": false,
+        "isClosed": true,
         "requirements": [
             { "name": "Acá enlistas los requisitos del docente", "optional": true },
             { "name": "Como cinco o seis cosas.", "optional": true },
@@ -111,7 +113,8 @@
         "endsAt": "12:00",
         "createdDate": "2021-01-01",
         "dueDate": "2022-01-01",
-        "active": true,
+        "isDraft": false,
+        "isClosed": true,
         "requirements": [
             { "name": "Acá enlistas los requisitos del docente", "optional": false },
             { "name": "Como cinco o seis cosas.", "optional": false },
@@ -152,7 +155,8 @@
         "endsAt": "12:00",
         "createdDate": "2021-01-01",
         "dueDate": "2022-01-01",
-        "active": true,
+        "isDraft": false,
+        "isClosed": true,
         "requirements": [
             { "name": "Acá enlistas los requisitos del docente", "optional": false },
             { "name": "Con un interlineado más grande", "optional": true },
@@ -190,7 +194,8 @@
         "endsAt": "12:00",
         "createdDate": "2021-01-01",
         "dueDate": "2022-01-01",
-        "active": true,
+        "isDraft": false,
+        "isClosed": true,
         "requirements": [
             { "name": "Que los textos normales.", "optional": false },
             { "name": "Asi se veria algo que no cumple", "optional": false },
@@ -231,7 +236,8 @@
         "endsAt": "12:00",
         "createdDate": "2021-01-01",
         "dueDate": "2022-01-01",
-        "active": true,
+        "isDraft": false,
+        "isClosed": true,
         "requirements": [
             { "name": "Acá enlistas los requisitos del docente", "optional": false },
             { "name": "Como cinco o seis cosas.", "optional": false },
@@ -272,7 +278,8 @@
         "endsAt": "12:00",
         "createdDate": "2021-01-01",
         "dueDate": "2022-01-01",
-        "active": true,
+        "isDraft": false,
+        "isClosed": true,
         "requirements": [
             { "name": "Acá enlistas los requisitos del docente", "optional": false },
             { "name": "Como cinco o seis cosas.", "optional": false },
@@ -313,7 +320,8 @@
         "endsAt": "12:00",
         "createdDate": "2021-01-01",
         "dueDate": "2022-01-01",
-        "active": true,
+        "isDraft": false,
+        "isClosed": true,
         "requirements": [
             { "name": "Acá enlistas los requisitos del docente", "optional": false },
             { "name": "Como cinco o seis cosas.", "optional": false },

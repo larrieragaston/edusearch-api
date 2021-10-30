@@ -11,6 +11,7 @@ router.get(
 	findPostulationsForUser
 );
 router.get("/contests/favouriteForUser", authenticate, findFavouritesForUser);
+router.get("/contests/closedForUser", authenticate, findClosedForUser);
 router.post("/contests/createContest", authenticate, createContest);
 router.put("/contests/editContest/:id", authenticate, editContest);
 router.get(
@@ -202,10 +203,24 @@ async function calculateContestScoresById(req, res, next) {
 			return res.status(404).end();
 		}
 
+		req.logger.info(`Updating contest ${req.params.id} to isClosed = true`);
+		const contest3 = await req
+			.model("Contest")
+			.findOneAndUpdate(
+				{ _id: req.params.id },
+				{ isClosed: true },
+				{ new: true }
+			);
+
+		if (contest3.n < 1) {
+			req.logger.verbose("Contest not found");
+			return res.status(404).end();
+		}
+
 		req.logger.verbose("Contest Closed");
 
 		req.logger.verbose("Sending contest to client");
-		return res.json(contest2);
+		return res.json(contest3);
 	} catch (err) {
 		return next(err);
 	}
@@ -278,7 +293,7 @@ async function findContestsForUser(req, res, next) {
 	try {
 		const contests = await req
 			.model("Contest")
-			.find({})
+			.find({ $and: [{ isDraft: false }, { isClosed: false }] })
 			.populate("university")
 			.populate("career")
 			.populate("subject");
@@ -314,7 +329,7 @@ async function findPostulationsForUser(req, res, next) {
 	try {
 		const contests = await req
 			.model("Contest")
-			.find({})
+			.find({ $and: [{ isDraft: false }, { isClosed: false }] })
 			.populate("university")
 			.populate("career")
 			.populate("subject");
@@ -356,7 +371,7 @@ async function findFavouritesForUser(req, res, next) {
 	try {
 		const contests = await req
 			.model("Contest")
-			.find({})
+			.find({ $and: [{ isDraft: false }, { isClosed: false }] })
 			.populate("university")
 			.populate("career")
 			.populate("subject");
@@ -382,6 +397,42 @@ async function findFavouritesForUser(req, res, next) {
 			});
 
 		req.logger.verbose("Sending favourite contestsWithPostulations to client");
+		res.json(contestsWithPostulations);
+	} catch (err) {
+		next(err);
+	}
+}
+
+async function findClosedForUser(req, res, next) {
+	req.logger.info(
+		`Finding closed contests for user with id ${req.user._id} using auth token`
+	);
+
+	try {
+		const contests = await req
+			.model("Contest")
+			.find({ isClosed: true })
+			.populate("university")
+			.populate("career")
+			.populate("subject");
+
+		const postulations = await req
+			.model("Postulation")
+			.find({ user: req.user._id });
+
+		const favourites = await req
+			.model("Favourite")
+			.find({ user: req.user._id });
+
+		const contestsWithPostulations = contests.map(function (contest) {
+			const hasPostulation = postulations.some((p) =>
+				p.contest.equals(contest._id)
+			);
+			const isFavourite = favourites.some((p) => p.contest.equals(contest._id));
+			return { ...contest._doc, hasPostulation, isFavourite };
+		});
+
+		req.logger.verbose("Sending all contestsWithPostulations to client");
 		res.json(contestsWithPostulations);
 	} catch (err) {
 		next(err);
@@ -494,7 +545,7 @@ async function findDraftContestsForUniversity(req, res, next) {
 
 		const contests = await req
 			.model("Contest")
-			.find({ active: false })
+			.find({ isDraft: true })
 			.populate("university")
 			.populate("career")
 			.populate("subject");
@@ -533,15 +584,7 @@ async function findActiveContestsForUniversity(req, res, next) {
 		const contests = await req
 			.model("Contest")
 			.find({
-				$and: [
-					{ active: true },
-					{
-						$or: [
-							{ hasColloquium: true, activeStage: { $ne: 6 } },
-							{ hasColloquium: false, activeStage: { $ne: 5 } },
-						],
-					},
-				],
+				$and: [{ isDraft: false }, { isClosed: false }],
 			})
 			.populate("university")
 			.populate("career")
@@ -581,7 +624,7 @@ async function findEndedContestsForUniversity(req, res, next) {
 		const contests = await req
 			.model("Contest")
 			.find({
-				$or: [{ activeStage: 6 }, { hasColloquium: false, activeStage: 5 }],
+				isClosed: true,
 			})
 			.populate("university")
 			.populate("career")
