@@ -82,7 +82,7 @@ async function findPostulationsForUniversity(req, res, next) {
     });
 
 		req.logger.verbose("Sending all filteredPostulations to client");
-		res.json(filteredPostulations);
+		res.json(filteredPostulations.slice(0, 8));
   } catch (err) {
     next(err)
   }
