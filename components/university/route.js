@@ -12,6 +12,16 @@ router.get(
 	authenticate,
 	findUniversityByUser
 );
+router.get(
+	"/universities/getDashboardInfoByUniversity",
+	authenticate,
+	findInfoByUniversity
+);
+router.get(
+	"/universities/getContestsToCloseByUniversity",
+	authenticate,
+	findContestsToCloseByUniversity
+);
 router.put(
 	"/universities/updateUniversityByUser",
 	authenticate,
@@ -28,6 +38,7 @@ router.post(
 	upload.single("universityLogo"),
 	uploadUniversityLogo
 );
+
 
 async function findUniversityByUser(req, res, next) {
 	req.logger.info(`Finding university by user id ${req.user._id}`);
@@ -49,6 +60,97 @@ async function findUniversityByUser(req, res, next) {
 		next(err);
 	}
 }
+
+async function findInfoByUniversity(req, res, next) {
+	req.logger.info(`Finding university by user id ${req.user._id}`);
+
+	try {
+		const user = await req
+			.model("User")
+			.findOne({ _id: req.user._id })
+			.populate("university");
+
+		if (!user?.university) {
+			req.logger.verbose("University not found. Sending 404 to client");
+			return res.status(404).end();
+		}
+
+		const activeContest = await req
+			.model("Contest")
+			.find({
+				$and: [{ isDraft: false }, { isClosed: false }, { university: user?.university._id }],
+			})
+
+		const draftContest = await req
+			.model("Contest")
+			.find({
+				$and: [{ isDraft: true }, { university: user?.university._id }],
+			})
+
+		const careersUploaded = await req
+			.model("Career")
+			.find({ university: user?.university._id });
+
+
+		const usersCount = await req
+			.model("User")
+			.find({ university: user?.university._id });
+
+		req.logger.verbose("Sending university to client");
+		res.json({ 
+			activeContest: activeContest?.length ?? 0, 
+			draftContest: draftContest?.length ?? 0, 
+			careersUploaded: careersUploaded?.length ?? 0, 
+			usersCount: usersCount?.length ?? 0 
+		});
+	} catch (err) {
+		next(err);
+	}
+}
+
+async function findContestsToCloseByUniversity(req, res, next) {
+	req.logger.info(`Finding contestsWithPostulation by user id ${req.user._id}`);
+
+	try {
+		const user = await req
+			.model("User")
+			.findOne({ _id: req.user._id })
+			.populate("university");
+			
+			if (!user?.university) {
+				req.logger.verbose("University not found. Sending 404 to client");
+				return res.status(404).end();
+			}
+			
+			const dateNow = new Date();
+			
+			const contests = await req
+			.model("Contest")
+			.find({
+				$and: [{ isDraft: false }, { isClosed: false }, { university: user?.university._id }, {dueDate: {$gt: dateNow}}],
+			})
+			.sort({dueDate: -1})
+			.populate("career")
+			.populate("subject");
+
+		const postulations = await req
+			.model("Postulation")
+			.find({});
+
+		const contestsWithPostulations = contests.map(function (contest) {
+			const postulationsCount = postulations.filter((p) =>
+				p.contest.equals(contest._id)
+			)?.length ?? 0;
+			return { ...contest._doc, postulationsCount };
+		});
+
+		req.logger.verbose("Sending contestsWithPostulation to client");
+		res.json(contestsWithPostulations.slice(0,2));
+	} catch (err) {
+		next(err);
+	}
+}
+
 
 async function updateUniversityByUser(req, res, next) {
 	req.logger.info(`Updating university with id ${req.user._id}`);

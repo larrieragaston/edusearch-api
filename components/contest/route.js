@@ -424,7 +424,9 @@ async function findClosedForUser(req, res, next) {
 			.model("Favourite")
 			.find({ user: req.user._id });
 
-		const contestsWithPostulations = contests.map(function (contest) {
+		const contestsWithPostulations = contests
+		.filter(contest => postulations.some((p) => p.contest.equals(contest._id)))
+		.map(function (contest) {
 			const hasPostulation = postulations.some((p) =>
 				p.contest.equals(contest._id)
 			);
